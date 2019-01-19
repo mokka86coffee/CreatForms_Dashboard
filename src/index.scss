@@ -55,7 +55,7 @@ $fontPlay: 'Play', sans-serif;
     height: 100%;   
     display: flex;
     align-items: center;
-    background-image: url('../dist/imgs/background.png');
+    background-image: url('../dist/img/background.png');
     background-size: cover;
 }
 
@@ -173,10 +173,6 @@ $fontPlay: 'Play', sans-serif;
         display: flex;
         cursor: pointer;
 
-        &:not(:last-of-type){
-            margin-bottom: 1em;
-        }
-
         &:hover {
             & .adminmenu__icon { border-color: $textGreyHov; }
             & h4 { color: orange; }
@@ -210,8 +206,39 @@ $fontPlay: 'Play', sans-serif;
 
         & p {
             color: $textGrey;   
-            font-size: 0.8em;
+            font-size: 0.9rem;
             transition: .3s;
+
+            &:last-of-type {
+                margin-bottom: 1rem;
+            }
+
+            & b {
+                display: block;
+                margin-bottom: 10px;
+                color: #dcdcdc;
+            }
+        }
+
+        textarea {
+            color: #b7b7b7;
+            font-size: .8em;
+            -webkit-transition: .3s;
+            -o-transition: .3s;
+            -moz-transition: .3s;
+            transition: .3s;
+            background: transparent;
+            border: 1px solid #757575;
+            padding: 10px;
+            width: 90%;
+            height: 25vh;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        & button[type='submit'] {
+            @include btn(orangebtn);
+            background-color: rgba(76,175,79,.8);
         }
     }
 
@@ -485,4 +512,93 @@ $fontPlay: 'Play', sans-serif;
             }
         }
     } // settings
+
+    //---------------Testovoe NovaWeb
+
+    &__projects {
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        box-shadow: 0 0 10px #000;
+
+        &__title {
+            line-height: 2rem;
+            margin-bottom: 1rem;
+            font-family: Montserrat Alternates,sans-serif;
+            text-transform: uppercase;
+            font-size: 2rem;
+            color: #a7a7a7;
+        }
+
+        &__items {
+            position: relative;
+            height: calc(100% - 3rem + 20px);
+            margin-bottom: 2rem;
+            overflow: hidden;
+
+            & .wrap_hidescroll {
+                    @include wrap_hidescroll;
+            }
+
+            & .item {
+                overflow: hidden;
+                display: inline-block;
+                width: 31%;
+                height: 250px;
+                box-sizing: border-box;
+                margin: 1%;
+                padding: 1rem;
+                border-radius: 5px;
+                background-color: #252525;
+                color: #ddd7d7;
+                font-size: .9rem;
+                box-shadow: 0px 0px 13px 0px #000;
+                &__title {
+                    display: inline-block;
+                    width: 35px;
+                    margin-right: 120px;
+                    margin-bottom: 1rem;
+                    color: #fff;
+                    border-bottom: 3px solid orange;
+                    white-space: nowrap;
+                    font-size: 1rem;
+                }
+
+                &__type {
+                    margin-bottom: .5rem;
+                    width: 100%;
+                    color: orange;
+                    &:nth-of-type(2) {
+                        height: 2rem;
+                        word-break: break-word;
+                        overflow: hidden;
+                    }
+
+                    & em {
+                        color: #eee;
+                        padding-right: 10px;
+                    }
+                }
+
+                &__comments {
+                    width: 100%;
+                    height: calc(100% - 2rem - 28px);
+                    overflow: hidden;
+                    position: relative;
+                    box-sizing: border-box;
+                }
+
+                & .wraphidescroll {
+                    @include wrap_hidescroll;
+                    & p {
+                        color: #fff;
+                    }
+
+                }
+            }// item
+        } // items
+    }
+
+
 } //dashboard

@@ -18,14 +18,14 @@ export default function formReducer(state=[], action) {
             const {index} = action.payload;
             const elem = state[index];
             const newPos = elem.dragged;
-            if (index==newPos) return state;
+            if (index == newPos) return state;
             const arr = state.reduce((res,el,i)=> 
                     i==index 
                         ? res
                         : i==newPos
                             ? newPos<index
-                                ? [...res, elem, el]
-                                : [...res, el, elem]
+                                ? [...res, { ...elem, dragged: false }, el]
+                                : [...res, el, { ...elem, dragged: false }]
                             : [...res, el]                
             ,[]);
 

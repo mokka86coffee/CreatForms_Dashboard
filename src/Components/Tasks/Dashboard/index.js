@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import DashboardForm from './DashboardForm';
 
- class Dashboard extends React.PureComponent {
+class FormDashboard extends React.PureComponent {
 
     state = {
     }
@@ -101,5 +101,5 @@ import DashboardForm from './DashboardForm';
     }
 }
 
-export default connect(store => ({ newelem: store.newelem}))(Dashboard);
+export default connect(store => ({ newelem: store.newelem}))(FormDashboard);
 

@@ -3,7 +3,8 @@ import {connect} from 'react-redux';
 
 //Components
 import Panel from './Components/Tasks/Panel';
-import Dashboard from './Components/Tasks/Dashboard';
+import FormDashboard from './Components/Tasks/Dashboard';
+import ServerDashboard from './Components/Tasks/ServerDashboard';
 
 class App extends React.PureComponent {
 
@@ -19,6 +20,9 @@ class App extends React.PureComponent {
 
     render() {
         const { panelVisible, chosenElem } = this.state;
+        const Dashboard = chosenElem == 'forms' 
+            ? <FormDashboard panelVisible={panelVisible} /> 
+            : <ServerDashboard panelVisible={panelVisible} />;
         return (
             <section className="wrap">
                 <header className={!panelVisible ? "header" : "header header--hidden"}>
@@ -30,8 +34,8 @@ class App extends React.PureComponent {
                             <li><a href="#" id="contacts">......</a></li>
                         </ul>
                 </header>
-                <Panel chooseElem={this.chooseElem} panelVisible={panelVisible} panelHide={this.panelHide} />
-                <Dashboard chosenElem={chosenElem} panelVisible={panelVisible} />
+                <Panel chooseElem={this.chooseElem} chosenElem={chosenElem} panelVisible={panelVisible} panelHide={this.panelHide} />
+                {Dashboard}
             </section>
         )
     }
