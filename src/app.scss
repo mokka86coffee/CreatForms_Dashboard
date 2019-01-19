@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+html, body {
+    margin: 0;
+}
+
+.app {
+    background-color: skyblue;
+    color: #000;
+}
+
+#con {
+    width: 400px;
+    white-space: pre-wrap;
+
+    & p ~ span {
+        color: red;
+
+        &::selection {
+            color: orange;
+        }
+    }
+}
