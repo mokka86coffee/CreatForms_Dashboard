@@ -16,6 +16,15 @@ const sortingMiddleWare = store => next => action => {
         mas[storage.indexDrag] = elemTo;
         localStorage.setItem('novawebPositions', JSON.stringify(mas.map((el, i) => el.id)));
         next({ ...action, payload: { serverlist: mas } });
+    } else if (action.type === 'TOUCH_END') {
+        let storage = store.getState().projects;
+        let mas = storage.serverlist;
+        let elemFrom = mas[storage.indexDrag];
+        let elemTo = mas[action.payload.indexDragTo];
+        mas[action.payload.indexDragTo] = elemFrom;
+        mas[storage.indexDrag] = elemTo;
+        localStorage.setItem('novawebPositions', JSON.stringify(mas.map((el, i) => el.id)));
+        next({ ...action, payload: { serverlist: mas } });
     }
     else {
         next(action);
