@@ -1,8 +1,608 @@
-@import url('https://fonts.googleapis.com/css?family=Marck+Script');
+@import url('https://fonts.googleapis.com/css?family=Montserrat+Alternates:900|Play:400,700&subset=cyrillic');
 
-body, * {
+*, *::before, *::after {
+    text-decoration: none;
+    list-style: none;
     padding: 0;
     margin: 0;
-    position: relative;
-    font-family: 'Marck Script', cursive;
+    font-family: 'Play', sans-serif;    
 }
+
+html, body {
+    background-color: #181818;
+    height: 100%;   
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    overflow: hidden;
+}
+
+//colors
+$textGrey: #8d8d8d;
+$textGreyHov: #e4e4e4;
+$textMenu: #D8A100;
+//colors
+
+//fonts
+$fontMontserrat: 'Montserrat Alternates', sans-serif;
+$fontPlay: 'Play', sans-serif;
+//fonts
+
+//mixins
+
+@mixin btn ($type) {
+	@if ($type == orangebtn) {
+        border: none; padding: 1em; padding: 5px 10px; background-color: $textMenu;
+        color: #fff; font-size: 1em; text-transform: uppercase; cursor: pointer; outline: none;
+        transition: .2s; 
+        &:active {
+            transform: scale(.96);
+        }
+        @content;
+    }
+    @else { }
+} 
+
+@mixin wrap_hidescroll () {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    overflow-y: scroll; padding: 5px 25px 5px 5px; @content;
+}
+//mixins
+#root {
+    height: 100%;
+}
+
+.wrap {
+    height: 100%;   
+    display: flex;
+    align-items: center;
+    background-image: url('../dist/img/background.png');
+    background-size: cover;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    transition: 1s;
+
+    &__logo {
+        width: 200px;
+        height: 200px;
+        margin-bottom: 2rem;
+
+        &--hidden {
+            display: none;
+        }
+    }
+
+    &__menu {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        & a {
+            text-transform: uppercase;
+            margin: 0px 1.5em;
+            color: #fff;
+            font-size: 1.5rem;
+            padding: .5rem 0px;
+            position: relative;
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 100%;
+                left: 50%;
+                width: 0px;
+                height: 2px;
+                transition: .26s;
+            }
+
+            &:hover {
+                &::before {
+                    background-color: orange;
+                    width: 100%;
+                    left: 0px;
+                }
+            }
+        }
+    } // menu
+    &--hidden {
+        opacity: 0;
+        transform: scale(1.2,1.2);
+    }
+} // header
+
+.adminmenu {    
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 3em 1em 0px;
+    width: 400px;
+    box-sizing: border-box;
+    background: #1F1F1E;
+    font-size: 1.2rem;
+    transition: 1s;
+
+    &__controls {
+        width: 100%;
+        margin-bottom: 1.5em;
+
+        & button {
+            @include btn(orangebtn){
+                &:first-of-type {
+                    margin-right: 1em;
+                }
+                &:hover {
+                    opacity: 0.9;
+                }
+            };
+        }
+
+        & .btnclose {
+            position: absolute;
+            z-index: 10;
+            top: 1.5em;
+            right: .5em;
+            margin: 0;
+            padding: .25em;
+            transition: color .2s;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            font-size: 1.5em;
+            color: $textGrey;
+
+            &:hover {
+                color: $textGreyHov;
+            }
+        }
+    } // controls
+    
+    &__title {
+        font-family: $fontMontserrat;
+        text-transform: uppercase;
+        color: rgb(85, 85, 85);
+        margin-bottom: 1em;
+    }
+
+    &__item {
+        display: flex;
+        cursor: pointer;
+
+        &:hover {
+            & .adminmenu__icon { border-color: $textGreyHov; }
+            & h4 { color: orange; }
+        }
+        &--editing {
+            & .adminmenu__icon { 
+                border: 2px dashed #fff;
+                animation: adding_elem 1s linear 0s infinite normal forwards;
+            }
+            & h4 { color: orange; }
+        }
+    }
+
+    &__icon {
+        box-sizing: border-box;
+        width: 1.2em;
+        height: 1.2em;
+        margin-right: 1em;
+        border-radius: 100%;
+        border: 4px dashed orange;
+    }
+
+    &__info {
+        color: $textGreyHov;
+        & h4 {
+            width: 100%;
+            text-transform: uppercase;
+            transition: .3s;
+            margin-bottom: .5rem;
+        }
+
+        & p {
+            color: $textGrey;   
+            font-size: 0.9rem;
+            transition: .3s;
+
+            &:last-of-type {
+                margin-bottom: 1rem;
+            }
+
+            & b {
+                display: block;
+                margin-bottom: 10px;
+                color: #dcdcdc;
+            }
+        }
+
+        textarea {
+            color: #b7b7b7;
+            font-size: .8em;
+            -webkit-transition: .3s;
+            -o-transition: .3s;
+            -moz-transition: .3s;
+            transition: .3s;
+            background: transparent;
+            border: 1px solid #757575;
+            padding: 10px;
+            width: 90%;
+            height: 25vh;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        & button[type='submit'] {
+            @include btn(orangebtn);
+            background-color: rgba(76,175,79,.8);
+        }
+    }
+
+    &--hidden {
+        left: -400px;
+        z-index: -1;
+    }
+} // adminmenu
+
+@keyframes adding_elem {
+    from {
+        transform: rotateZ(0deg);
+        border: 2px dashed #fff;
+    }
+    from {
+        transform: rotateZ(360deg);
+        border: 2px dashed #fff;
+    }
+}
+
+.dashboard {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    transition: 2s;
+    width: calc(100% - 400px);
+    padding: 2em;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    &--hidden {
+        opacity: 0;
+        z-index: -1;
+    }
+
+    &__panel {
+        position: relative;
+        width: 200px;
+        height: 260px;
+        padding: 1em;
+        overflow: hidden;
+        border: 1px solid #2f2f2f;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #171616;
+        background-color: rgba(0, 0, 0, 0.75);
+        color: $textGrey;
+        text-align: center;
+
+        & .panel__wrap {
+            @include wrap_hidescroll;
+        }
+
+        & p {
+            & span {
+                color: $textGreyHov;
+            }
+
+            &:nth-of-type(2) {
+                margin-bottom: 10px;
+            }
+
+            &:nth-of-type(3) {
+                font-size: 0.9rem;
+            }
+        }
+
+        &:hover {
+            cursor: move;
+        }
+
+        &--dragover {
+            opacity: 1;
+            border: 1px solid #795548;
+            box-shadow: 0px 0px 10px #795548;
+        }
+
+
+        &[aria-grabbed="true"] {
+            background-color: transparent;
+        }
+
+    }
+
+    //---------------Testovoe Forms
+
+    &__form {
+        width: 45%;
+        box-sizing: border-box;
+        padding: 20px;
+
+        & .managerform {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            border-radius: 10px;
+            background-color: #fff;
+            
+            &__item {margin-bottom: 20px;
+                width: 100%;
+                padding: 10px;
+                border-radius: 10px;
+                border: 1px solid #009688;
+                @for $i from 1 through 20 {
+                    &:nth-of-type(#{$i}) {
+                        order: $i;
+                    }
+                }
+
+                & input,
+                & textarea {
+                    display: block;
+                    width: 100%;
+                    font-size: 1em;
+                    padding: 10px;
+                    box-sizing: border-box;
+                    border: 1px solid #9E9E9E;
+                    border-radius: 5px;
+
+                    &[type='radio'],
+                    &[type='checkbox'] {
+                        width: auto;
+                        display: inline;
+                    }
+                }
+                & label {
+                    display: block;
+                    width: 100%;
+                    margin-bottom: 5px;
+                    cursor: grab;
+                }
+
+            }
+
+            &__hint {
+                display: none;
+                position: absolute;
+                padding: 20px;
+                background: #000;
+                border-radius: 10px;
+                color: #fff;
+                box-shadow: 0 0 10px 0px #000;
+                font-size: .9rem;
+                z-index: 2;
+
+                & p:not(:last-of-type) {
+                    margin-bottom: 5px;
+                }
+
+                & b {
+                    color: orange;
+                }
+            }
+
+            &__item:last-of-type { margin-bottom: 0; }
+
+        }
+    }
+
+    &__settings {
+        width: 55%;
+        height: 92%;
+        padding: 20px;
+        box-sizing: border-box;
+        box-shadow: 0 0 10px #000;
+
+        &__title {
+            line-height: 2rem;
+            margin-bottom: 1rem;
+            font-family: $fontMontserrat;
+            text-transform: uppercase;
+            font-size: 2rem;
+            color: rgb(167, 167, 167);
+        }
+
+        &__items {
+            position: relative;
+            height: calc(100% - 3rem + 20px);
+            margin-bottom: 2rem;
+            overflow: hidden;
+
+            .wrap_hidescroll { @include wrap_hidescroll; }
+            
+            & hr {
+                margin-bottom: 30px;
+                color: #000;
+                background-color: #000;
+                border: none;
+                border-bottom: 1px solid #7b7b7b;
+            }
+
+            & .item {
+                margin-bottom: 40px;
+                display: flex;
+
+                &:not(:nth-of-type(n+5)) {
+                    & label { cursor: pointer; }
+                }
+
+                & label {
+                    display: inline-block;
+                    width: 35px;
+                    margin-right: 120px;
+                    color: #fff;
+                    border-bottom: 3px solid orange;
+                    cursor: no-drop;
+                    white-space: nowrap;
+                }
+
+                & select,
+                & input {
+                    width: 100%;
+                    font-size: 1em;
+                    padding: 5px;
+                    border: 1px solid #9e9e9e;
+                    background: #9E9E9E;
+                    box-shadow: 0 0 10px 5px #9e9e9e;
+                    outline: none;
+                    cursor: pointer;
+
+                    &[type='checkbox'] { width: auto; }
+                }
+
+                &__btn--add {
+                    position: relative;
+                    margin-left: 50%;
+                    margin-bottom: 30px;
+                    transform: translateX(-50%);
+                    font-size: 3rem;
+                    width: 3rem;
+                    line-height: 3rem;
+                    border-radius: 100%;
+                    background: orange;
+                    box-shadow: 0px 0px 10px orange;
+                    border: none;
+                    color: #fff;
+                    cursor: pointer;
+                    outline: none;
+
+                    &:active {
+                        transform: translateX(-50%) scale(.96);
+                    }
+                } // btn_add
+
+            } // item
+        } // items
+        &__controls {
+            & .btn {
+                @include btn(orangebtn){
+                    &--finish {
+                        margin-right: 2rem;
+                        background-color: rgba(76, 175, 79, 0.8);
+                        box-shadow: 0 0 10px #4caf50;
+                        &:hover {
+                          background-color: rgba(76, 175, 79, 1);
+                        }
+                    }
+                    &--cancel {
+                        background-color: rgba(255, 86, 34, 0.8);
+                        box-shadow: 0 0 10px #ff5722;
+                        &:hover {
+                         background-color: rgba(255, 86, 34, 1);
+                        }
+                    }
+                }
+            }
+        }
+    } // settings
+
+    //---------------Testovoe NovaWeb
+
+    &__projects {
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        box-shadow: 0 0 10px #000;
+
+        &__title {
+            line-height: 2rem;
+            margin-bottom: 1rem;
+            font-family: Montserrat Alternates,sans-serif;
+            text-transform: uppercase;
+            font-size: 2rem;
+            color: #a7a7a7;
+        }
+
+        & .error {
+            color: #fff;
+        }
+
+        &__items {
+            position: relative;
+            height: calc(100% - 3rem + 20px);
+            margin-bottom: 2rem;
+            overflow: hidden;
+
+            & .wrap_hidescroll {
+                    @include wrap_hidescroll;
+            }
+
+            & .item {
+                overflow: hidden;
+                display: inline-block;
+                width: 31%;
+                height: 250px;
+                box-sizing: border-box;
+                margin: 1%;
+                padding: 1rem;
+                border-radius: 5px;
+                background-color: #252525;
+                color: #ddd7d7;
+                font-size: .9rem;
+                box-shadow: 0px 0px 13px 0px #000;
+                &__title {
+                    display: inline-block;
+                    width: 35px;
+                    margin-right: 120px;
+                    margin-bottom: 1rem;
+                    color: #fff;
+                    border-bottom: 3px solid orange;
+                    white-space: nowrap;
+                    font-size: 1rem;
+                }
+
+                &__type {
+                    margin-bottom: .5rem;
+                    width: 100%;
+                    color: orange;
+                    &:nth-of-type(2) {
+                        height: 2rem;
+                        word-break: break-word;
+                        overflow: hidden;
+                    }
+
+                    & em {
+                        color: #eee;
+                        padding-right: 10px;
+                    }
+                }
+
+                &__comments {
+                    width: 100%;
+                    height: calc(100% - 2rem - 28px);
+                    overflow: hidden;
+                    position: relative;
+                    box-sizing: border-box;
+                }
+
+                & .wraphidescroll {
+                    @include wrap_hidescroll;
+                    & p {
+                        color: #fff;
+                    }
+
+                }
+            }// item
+        } // items
+    }
+
+
+} //dashboard
