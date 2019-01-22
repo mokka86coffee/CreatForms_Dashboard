@@ -18,7 +18,7 @@ const fromMiddleware = applyMiddleware(sortingMiddleWare, apiMiddleWare)(createS
 const store = fromMiddleware(reducer, {
     newelem: { title: 'текст', node: 'input', id: '', type: 'text', required: false, placeholder: '', stored: false, dragged: false },
     form: savedForm,
-    projects: { template: '', serverlist: [], indexDrag: null, indexDrag: null }
+    projects: { template: '', serverlist: [], indexDrag: -1, indexDrag: -1, error: null, coords: {x: 0, y: 0} }
 });
 
 export default store;
